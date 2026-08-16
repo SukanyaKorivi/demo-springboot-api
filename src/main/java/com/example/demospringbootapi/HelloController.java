@@ -27,7 +27,10 @@ public Product product(){
 
 private final ProductService productService;
 @PostMapping("/products")
-public Product createProduct(@Valid @RequestBody Product product){
+public Product createProduct(
+        @Valid @RequestBody ProductRequest productRequest){
+       Product product=new Product(0,
+               productRequest.getName(),productRequest.getPrice());
 
     return productService.createProduct(product);
 }
