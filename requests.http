@@ -2,7 +2,7 @@ POST http://localhost:8080/products
 Content-Type: application/json
 
 {
-  "id": 3,
-  "name": "Mouse",
+  "id": 4,
+  "name": " ",
   "price": -500
 }

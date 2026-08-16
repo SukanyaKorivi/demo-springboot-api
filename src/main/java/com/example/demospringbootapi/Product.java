@@ -1,8 +1,12 @@
 package com.example.demospringbootapi;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
 
 public class Product {
     private int id;
+    @NotBlank
     private String name;
+    @Positive
     private double price;
 
     public Product(int id, String name, double price) {
