@@ -26,13 +26,16 @@ public Product product(){
 
 
 private final ProductService productService;
+    private final ProductMapper productMapper = new ProductMapper();
 @PostMapping("/products")
-public Product createProduct(
+public ProductResponse createProduct(
         @Valid @RequestBody ProductRequest productRequest){
-       Product product=new Product(0,
-               productRequest.getName(),productRequest.getPrice());
+    Product product = productMapper.toProduct(productRequest);
 
-    return productService.createProduct(product);
+    product = productService.createProduct(product);
+
+    ProductResponse productResponse = productMapper.toResponse(product);
+    return productResponse;
 }
 
 
