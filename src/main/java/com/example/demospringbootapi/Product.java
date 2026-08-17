@@ -1,8 +1,14 @@
 package com.example.demospringbootapi;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
-
+import jakarta.persistence.Entity;
+@Entity
 public class Product {
+    @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
     @NotBlank
     private String name;
