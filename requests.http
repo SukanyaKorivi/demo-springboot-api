@@ -1,7 +1,1 @@
-POST http://localhost:8080/products
-Content-Type: application/json
-
-{
-  "name": "",
-  "price": -500
-}
+GET http://localhost:8080/products/2
