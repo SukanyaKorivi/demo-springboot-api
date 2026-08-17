@@ -12,37 +12,40 @@ import java.util.Map;
 @RestController
 public class HelloController {
 
-    @GetMapping("/hello")
-public String hello(@RequestParam String name){
-
-   return "Hello "+name +" hope you are doing well.Be strong!";
-}
-
-
-@GetMapping("/products")
-public Product product(){
-  return new Product(1,"laptop",50000);
-}
-
-
-private final ProductService productService;
+    private final ProductService productService;
     private final ProductMapper productMapper = new ProductMapper();
+    private final ProductRepository productRepository;
+
+    public HelloController(
+            ProductService productService,
+            ProductRepository productRepository) {
+
+        this.productService = productService;
+        this.productRepository = productRepository;
+    }
+
+
+    @GetMapping("/products")
+    public List<ProductResponse> getProducts() {
+        return productService.getAllProducts()
+                .stream()
+                .map(productMapper::toResponse)
+                .toList();
+    }
+
+
 @PostMapping("/products")
 public ProductResponse createProduct(
         @Valid @RequestBody ProductRequest productRequest){
     Product product = productMapper.toProduct(productRequest);
-
-    product = productService.createProduct(product);
-
+    product = productRepository.save(product);
     ProductResponse productResponse = productMapper.toResponse(product);
     return productResponse;
 }
-
-
-public HelloController(ProductService p){
-this.productService=p;
-}
-
+    @GetMapping("/products/{id}")
+    public Product getProductById(@PathVariable Integer id) {
+        return productService.getProductById(id);
+    }
 
 @ExceptionHandler(MethodArgumentNotValidException.class)
    public ResponseEntity<Map<String,String>> handleInvalidEntries(MethodArgumentNotValidException e){
@@ -54,5 +57,6 @@ this.productService=p;
     }
     return ResponseEntity.badRequest().body(errorlist);
 }
+
 }
 
